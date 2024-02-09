@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
       GameMessage("Debug mode eneabled!", true);
       debugMode = true;
     } else {
-      GameMessage("Debug mode disabled!", false);
+      // GameMessage("Debug mode disabled!", false);
     }
   }
 
