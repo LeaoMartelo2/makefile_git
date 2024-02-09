@@ -2,18 +2,18 @@ CC = g++
 FLAGS = -O3
 SRC = src/
 INCLUDE = src/include/
-OBJ = obj/
-ALLOBJ = $(wildcard ${OBJ}*.o)
+#OBJ = obj/
+#ALLOBJ = $(wildcard ${OBJ}*.o)
 
 all: main.o func.o
-	${CC} ${FLAGS} ${ALLOBJ} -o final.run
+	${CC} ${FLAGS} $^ -o final.run
 
 clear: 
-	rm ${OBJ}*.o final.run
+	rm *.o final.run
 
 main.o: ${SRC}main.cpp
-	${CC} ${FLAGS} -c $^ -o ${OBJ}$@
+	${CC} ${FLAGS} -c $^ -o $@
 
 func.o: ${INCLUDE}func.cpp 
-	${CC} ${FLAGS} -c $^ -o ${OBJ}$@
+	${CC} ${FLAGS} -c $^ -o $@
 
