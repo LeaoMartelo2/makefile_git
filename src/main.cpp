@@ -1,6 +1,8 @@
 #include "include/func.h"
 #include <cstring>
+#include <curses.h>
 #include <iostream>
+#include <ncurses.h>
 
 int main(int argc, char *argv[]) {
 
@@ -11,12 +13,24 @@ int main(int argc, char *argv[]) {
   if (argc > 1) {
 
     if (std::strcmp(argv[1], debug_mode_arg) == 0) {
-      GameMessage("Debug mode eneabled!", true);
+      ConsoleMessage("Debug mode Eneabled", true);
       debugMode = true;
+      std::cin.get();
     } else {
-      // GameMessage("Debug mode disabled!", false);
+      // pass
     }
   }
 
+  initscr();
+
+  printw("Hello World!\n");
+
+  if (debugMode) {
+  }
+  refresh();
+
+  getch();
+
+  endwin();
   return 0;
 }

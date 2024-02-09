@@ -1,5 +1,5 @@
 CC = g++
-FLAGS = -O3
+FLAGS = -O3 -lncurses
 SRC = src/
 INCLUDE = src/include/
 #OBJ = obj/

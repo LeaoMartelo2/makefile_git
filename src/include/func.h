@@ -2,6 +2,9 @@
 #define FUNC_H
 
 #include <string>
-void GameMessage(std::string message, bool displayHeader);
+
+void ConsoleMessage(std::string message, bool displayHeader);
+
+void CoordDebugMessage(const char *message, bool showDebug, int y, int x);
 
 #endif
