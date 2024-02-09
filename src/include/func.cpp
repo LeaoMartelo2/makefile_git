@@ -1,4 +1,6 @@
 #include "func.h"
+#include <cstring>
+#include <curses.h>
 #include <iostream>
 #include <ncurses.h>
 #include <ostream>
@@ -20,8 +22,9 @@ void CoordDebugMessage(const char *message, bool showDebug, int y, int x) {
   const char *defaultMessageHeader = "[Debug] ";
 
   if (showDebug) {
-    // ncurses magic to show the message with the header at X, Y
+    mvprintw(10, 10, message);
   } else {
+    mvprintw(y, x, message);
     // ncurses magic to show the message without the header at X, Y
   }
 }

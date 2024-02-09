@@ -26,6 +26,7 @@ int main(int argc, char *argv[]) {
   printw("Hello World!\n");
 
   if (debugMode) {
+    CoordDebugMessage("Debug mode is still eneabled!", true, 0, 0);
   }
   refresh();
 
