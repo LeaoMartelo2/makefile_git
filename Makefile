@@ -6,10 +6,10 @@ INCLUDE = src/include/
 #ALLOBJ = $(wildcard ${OBJ}*.o)
 
 all: main.o func.o
-	${CC} ${FLAGS} $^ -o final.run
+	${CC} ${FLAGS} $^ -o all
 
 clear: 
-	rm *.o final.run
+	rm *.o final
 
 main.o: ${SRC}main.cpp
 	${CC} ${FLAGS} -c $^ -o $@
