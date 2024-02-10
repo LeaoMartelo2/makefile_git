@@ -4,6 +4,9 @@
 #include <iostream>
 #include <ncurses.h>
 
+#define ROWS 30
+#define COLS 80
+
 int main(int argc, char *argv[]) {
 
   // ARGUMENT LIST
@@ -25,18 +28,25 @@ int main(int argc, char *argv[]) {
   int y = 11, x = 11;
   char player = '@';
 
+  int rows, cols;
+
+  rows = 30;
+  cols = 80;
+  char map[30][80];
+
   bool game = true;
 
   initscr();
   keypad(stdscr, 1);
   noecho();
   curs_set(0);
-
-  printw("Hello World!\n");
+  //  printw("row: %d, col %d", rows, cols);
 
   if (debugMode) {
     CoordDebugMessage("Debug mode is still eneabled!", true, 5, 10);
   }
+
+  GenDungeon(map, rows, cols);
 
   while (game) {
     input = getch();
@@ -70,10 +80,9 @@ int main(int argc, char *argv[]) {
     mvaddch(y, x, player);
   }
 
+  clear();
+
   refresh();
-
-  getch();
-
   endwin();
   return 0;
 }
