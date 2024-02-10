@@ -11,4 +11,6 @@ void GenDungeon(char map[][80], int rows, int cols);
 
 void clearMap(char map[][80]);
 
+void movePlayer(char map[][80], int &y, int &x, char input);
+
 #endif

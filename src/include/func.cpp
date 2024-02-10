@@ -56,3 +56,38 @@ void clearMap(char map[][80]) {
     }
   }
 }
+
+void movePlayer(char map[][80], int &y, int &x, char input) {
+
+  switch (input) {
+  case 'w':
+    if (map[y - 1][x] == ' ') {
+      mvaddch(y, x, ' ');
+      y--;
+    }
+    break;
+
+  case 's':
+    if (map[y + 1][x] == ' ') {
+      mvaddch(y, x, ' ');
+      y++;
+    }
+    break;
+
+  case 'a':
+    if (map[y][x - 1] == ' ') {
+      mvaddch(y, x, ' ');
+      x--;
+    }
+    break;
+
+  case 'd':
+    if (map[y][x + 1] == ' ') {
+      mvaddch(y, x, ' ');
+      x++;
+    }
+    break;
+  default:
+    break;
+  }
+}

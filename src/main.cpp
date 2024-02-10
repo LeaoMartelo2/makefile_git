@@ -60,47 +60,7 @@ int main(int argc, char *argv[]) {
 
     input = getch();
 
-    //   mvaddch(1, 1, input);
-
-    switch (input) {
-    case 'w':
-      if (map[y - 1][x] == ' ') {
-        mvaddch(y, x, ' ');
-        y--;
-      }
-      break;
-
-    case 's':
-      if (map[y + 1][x] == ' ') {
-        mvaddch(y, x, ' ');
-        y++;
-      }
-      break;
-
-    case 'a':
-      if (map[y][x - 1] == ' ') {
-        mvaddch(y, x, ' ');
-        x--;
-      }
-      break;
-
-    case 'd':
-      if (map[y][x + 1] == ' ') {
-        mvaddch(y, x, ' ');
-        x++;
-      }
-      break;
-
-    case 2:
-      game = false;
-      break;
-
-    default:
-      /*
-        mvprintw(10, 10, "this shit dosent work");
-      */
-      break;
-    }
+    movePlayer(map, y, x, input);
 
     mvaddch(y, x, player);
   }
