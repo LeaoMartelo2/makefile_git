@@ -30,9 +30,9 @@ void CoordDebugMessage(std::string message, bool showDebug, int y, int x) {
     message.insert(0, defaultMessageHeader);
     const char *message_cstring_debug = message.c_str();
 
-    mvprintw(y, x, message_cstring_debug);
+    // mvprintw(y, x, message_cstring_debug);
   } else {
-    mvprintw(y, x, message_cstring);
+    // mvprintw(y, x, message_cstring);
   }
 }
 
@@ -50,4 +50,39 @@ void GenDungeon(char map[][80], int rows, int cols) {
       mvaddch(yy, xx, ' ');
     }
   }
+}
+
+void playerMovement(const char map[][80], int &y, int &x, int &input) {
+
+  switch (input) {
+  case KEY_UP:
+    if (map[y - 1][x] == ' ') {
+      mvaddch(y, x, ' ');
+      y--;
+    }
+    break;
+
+  case KEY_DOWN:
+    if (map[y + 1][x] == ' ') {
+      mvaddch(y, x, ' ');
+      y++;
+    }
+    break;
+
+  case KEY_LEFT:
+    if (map[y][x - 1] == ' ') {
+      mvaddch(y, x, ' ');
+      x--;
+    }
+    break;
+
+  case KEY_RIGHT:
+    if (map[y][x + 1] == ' ') {
+      mvaddch(y, x, ' ');
+      x++;
+    }
+    break;
+  }
+
+  mvaddch(y, x, '@');
 }

@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
   }
 
   int input;
-  int y = 11, x = 11;
+  int y = 11, x = 12;
   char player = '@';
 
   int rows, cols;
@@ -43,41 +43,14 @@ int main(int argc, char *argv[]) {
   //  printw("row: %d, col %d", rows, cols);
 
   if (debugMode) {
-    CoordDebugMessage("Debug mode is still eneabled!", true, 5, 10);
+    //    CoordDebugMessage("Debug mode is still eneabled!", true, 5, 10);
   }
 
-  GenDungeon(map, rows, cols);
+  // GenDungeon(map, rows, cols);
 
   while (game) {
     input = getch();
-
-    switch (input) {
-    case KEY_UP:
-      mvaddch(y, x, ' ');
-      y--;
-      break;
-
-    case KEY_DOWN:
-      mvaddch(y, x, ' ');
-      y++;
-      break;
-
-    case KEY_LEFT:
-      mvaddch(y, x, ' ');
-      x--;
-      break;
-
-    case KEY_RIGHT:
-      mvaddch(y, x, ' ');
-      x++;
-      break;
-
-    case 27:
-      game = false;
-      break;
-    }
-
-    mvaddch(y, x, player);
+    playerMovement(map, y, x, input);
   }
 
   clear();
