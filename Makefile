@@ -9,7 +9,7 @@ all: main.o func.o
 	${CC} ${FLAGS} $^ -o all
 
 clear: 
-	rm *.o final
+	rm *.o all
 
 main.o: ${SRC}main.cpp
 	${CC} ${FLAGS} -c $^ -o $@
