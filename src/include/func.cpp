@@ -17,14 +17,18 @@ void ConsoleMessage(std::string message, bool displayHeader) {
   }
 }
 
-// displays a debug message at X, Y coords on a ncurses screen
-void CoordDebugMessage(const char *message, bool showDebug, int y, int x) {
+void CoordDebugMessage(std::string message, bool showDebug, int y, int x) {
   const char *defaultMessageHeader = "[Debug] ";
 
+  const char *message_cstring = message.c_str();
+
   if (showDebug) {
-    mvprintw(10, 10, message);
+
+    message.insert(0, defaultMessageHeader);
+    const char *message_cstring_debug = message.c_str();
+
+    mvprintw(y, x, message_cstring_debug);
   } else {
-    mvprintw(y, x, message);
-    // ncurses magic to show the message without the header at X, Y
+    mvprintw(y, x, message_cstring);
   }
 }

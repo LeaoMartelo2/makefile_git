@@ -21,13 +21,55 @@ int main(int argc, char *argv[]) {
     }
   }
 
+  int input;
+  int y = 11, x = 11;
+  char player = '@';
+
+  bool game = true;
+
   initscr();
+  keypad(stdscr, 1);
+  noecho();
+  curs_set(0);
 
   printw("Hello World!\n");
 
   if (debugMode) {
-    CoordDebugMessage("Debug mode is still eneabled!", true, 0, 0);
+    CoordDebugMessage("Debug mode is still eneabled!", true, 5, 10);
   }
+
+  while (game) {
+    input = getch();
+
+    switch (input) {
+    case KEY_UP:
+      mvaddch(y, x, ' ');
+      y--;
+      break;
+
+    case KEY_DOWN:
+      mvaddch(y, x, ' ');
+      y++;
+      break;
+
+    case KEY_LEFT:
+      mvaddch(y, x, ' ');
+      x--;
+      break;
+
+    case KEY_RIGHT:
+      mvaddch(y, x, ' ');
+      x++;
+      break;
+
+    case 27:
+      game = false;
+      break;
+    }
+
+    mvaddch(y, x, player);
+  }
+
   refresh();
 
   getch();
