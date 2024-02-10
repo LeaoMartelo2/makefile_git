@@ -1,13 +1,9 @@
 #include "func.h"
-#include <cstring>
 #include <curses.h>
 #include <iostream>
 #include <ncurses.h>
 #include <ostream>
 #include <string>
-
-#define ROWS 30
-#define COLS 80
 
 void ConsoleMessage(std::string message, bool displayHeader) {
 
@@ -52,37 +48,11 @@ void GenDungeon(char map[][80], int rows, int cols) {
   }
 }
 
-void playerMovement(const char map[][80], int &y, int &x, int &input) {
-
-  switch (input) {
-  case KEY_UP:
-    if (map[y - 1][x] == ' ') {
-      mvaddch(y, x, ' ');
-      y--;
+void clearMap(char map[][80]) {
+  for (int yy = 0; yy <= 30; yy++) {
+    for (int xx = 0; xx <= 80; xx++) {
+      map[yy][xx] = ' ';
+      mvaddch(yy, xx, ' ');
     }
-    break;
-
-  case KEY_DOWN:
-    if (map[y + 1][x] == ' ') {
-      mvaddch(y, x, ' ');
-      y++;
-    }
-    break;
-
-  case KEY_LEFT:
-    if (map[y][x - 1] == ' ') {
-      mvaddch(y, x, ' ');
-      x--;
-    }
-    break;
-
-  case KEY_RIGHT:
-    if (map[y][x + 1] == ' ') {
-      mvaddch(y, x, ' ');
-      x++;
-    }
-    break;
   }
-
-  mvaddch(y, x, '@');
 }

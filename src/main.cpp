@@ -24,8 +24,9 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  int input;
-  int y = 11, x = 12;
+  char input;
+  int y = 11;
+  int x = 12;
   char player = '@';
 
   int rows, cols;
@@ -36,21 +37,72 @@ int main(int argc, char *argv[]) {
 
   bool game = true;
 
+  char debug;
+
   initscr();
-  keypad(stdscr, 1);
+  // keypad(stdscr, 1);
   noecho();
   curs_set(0);
   //  printw("row: %d, col %d", rows, cols);
 
+  clearMap(map);
+
   if (debugMode) {
-    //    CoordDebugMessage("Debug mode is still eneabled!", true, 5, 10);
   }
 
   // GenDungeon(map, rows, cols);
 
   while (game) {
+    /*
+    mvprintw(5, 5, "Y coord: %d", y);
+    mvprintw(6, 5, "X coord %d", x);
+    */
+
     input = getch();
-    playerMovement(map, y, x, input);
+
+    //   mvaddch(1, 1, input);
+
+    switch (input) {
+    case 'w':
+      if (map[y - 1][x] == ' ') {
+        mvaddch(y, x, ' ');
+        y--;
+      }
+      break;
+
+    case 's':
+      if (map[y + 1][x] == ' ') {
+        mvaddch(y, x, ' ');
+        y++;
+      }
+      break;
+
+    case 'a':
+      if (map[y][x - 1] == ' ') {
+        mvaddch(y, x, ' ');
+        x--;
+      }
+      break;
+
+    case 'd':
+      if (map[y][x + 1] == ' ') {
+        mvaddch(y, x, ' ');
+        x++;
+      }
+      break;
+
+    case 2:
+      game = false;
+      break;
+
+    default:
+      /*
+        mvprintw(10, 10, "this shit dosent work");
+      */
+      break;
+    }
+
+    mvaddch(y, x, player);
   }
 
   clear();
