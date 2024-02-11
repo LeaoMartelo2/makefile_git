@@ -7,7 +7,7 @@ void ConsoleMessage(std::string message, bool displayHeader);
 
 void CoordDebugMessage(std::string message, bool showDebug, int y, int x);
 
-void GenDungeon(char map[][81], int rows, int cols);
+void GenRandomRoom(char map[][81], int rows, int cols);
 
 void clearMap(char map[][81]);
 

@@ -1,4 +1,5 @@
 #include "func.h"
+#include <cstdlib>
 #include <curses.h>
 #include <iostream>
 #include <ncurses.h>
@@ -32,20 +33,23 @@ void CoordDebugMessage(std::string message, bool showDebug, int y, int x) {
   }
 }
 
-void GenDungeon(char map[][81], int rows, int cols) {
+void GenRandomRoom(char map[][81], int rows, int cols) {
   for (int yy = 0; yy <= rows; yy++) {
     for (int xx = 0; xx <= cols; xx++) {
-      map[yy][xx] = '#';
-      mvaddch(yy, xx, '#');
+      if (rand() % 99 == 0) {
+        map[yy][xx] = '#';
+        mvaddch(yy, xx, '#');
+      }
     }
   }
-
-  for (int yy = 1; yy <= rows / 2; yy++) {
-    for (int xx = 11; xx <= cols / 2; xx++) {
-      map[yy][xx] = ' ';
-      mvaddch(yy, xx, ' ');
+  /*
+    for (int yy = 1; yy <= rows / 2; yy++) {
+      for (int xx = 11; xx <= cols / 2; xx++) {
+        map[yy][xx] = ' ';
+        mvaddch(yy, xx, ' ');
+      }
     }
-  }
+    */
 }
 
 void clearMap(char map[][81]) {

@@ -48,8 +48,7 @@ int main(int argc, char *argv[]) {
 
   clearMap(map);
   mapBorder(map);
-
-  // GenDungeon(map, rows, cols);
+  GenRandomRoom(map, rows, cols);
 
   if (debugMode) {
     attron(COLOR_PAIR(1));
