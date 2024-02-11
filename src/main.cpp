@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
   if (argc > 1) {
 
     if (std::strcmp(argv[1], debug_mode_arg) == 0) {
-      ConsoleMessage("Debug mode Eneabled", true);
+      //     ConsoleMessage("Debug mode Eneabled", true);
       debugMode = true;
       std::cin.get();
     } else {
