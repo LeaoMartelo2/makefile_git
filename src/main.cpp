@@ -1,3 +1,4 @@
+#include "include/debug.h"
 #include "include/func.h"
 #include <cstring>
 #include <locale.h>
@@ -45,6 +46,7 @@ int main(int argc, char *argv[]) {
   start_color();
   init_pair(1, COLOR_GREEN, COLOR_BLACK);
   init_pair(2, COLOR_RED, COLOR_BLACK);
+  init_pair(3, COLOR_CYAN, COLOR_BLACK);
 
   clearMap(map);
   mapBorder(map);
@@ -82,7 +84,7 @@ int main(int argc, char *argv[]) {
   getmaxyx(stdscr, rows, cols);
 
   nodelay(stdscr, 0);
-  mvprintw(rows / 2, cols / 2, "Press any key to exit.");
+  mvprintw(rows / 2, (cols / 2) - 6, "Press any key to exit.");
 
   getch();
 

@@ -8,9 +8,7 @@ void GenRandomRoom(char map[][81]) {
     for (int xx = 1; xx < 81; xx++) {
       if (rand() % 99 == 0) {
         map[yy][xx] = '#';
-        attron(COLOR_PAIR(2));
         mvaddch(yy, xx, '#');
-        attroff(COLOR_PAIR(2));
       }
     }
   }
@@ -47,58 +45,6 @@ void mapBorder(char map[][81]) {
   mvaddch(0, 81, ACS_URCORNER);
   mvaddch(31, 0, ACS_LLCORNER);
   mvaddch(31, 81, ACS_LRCORNER);
-}
-
-void debug_printPlayerXY(int &playerY, int &playerX) {
-
-  mvprintw(27, 115, "X: ");
-  attron(COLOR_PAIR(1));
-  printw("%d ", playerX);
-  attroff(COLOR_PAIR(1));
-  printw("Y: ");
-  attron(COLOR_PAIR(1));
-  printw("%d    ", playerY);
-  attroff(COLOR_PAIR(1));
-}
-
-void debug_printLastInput(char input) {
-
-  mvprintw(29, 115, "Last Key: ");
-
-  if (input != ERR) {
-
-    if (input == 10) {
-
-      attron(COLOR_PAIR(1));
-      addstr("\\n");
-      addch(' ');
-      attroff(COLOR_PAIR(1));
-
-    } else {
-      attron(COLOR_PAIR(1));
-      addch(input);
-      addch(' ');
-      attroff(COLOR_PAIR(1));
-    }
-  }
-}
-
-void debug_regenMap(char input, int &playerY, int &playerX) {
-  extern char map[31][81];
-
-  mvprintw(31, 115, "Press: ");
-  attron(COLOR_PAIR(1));
-  printw("h");
-  attroff(COLOR_PAIR(1));
-  printw(" to re-generate the map.");
-
-  if (input == 'h') {
-    clearMap(map);
-    //   mapBorder(map);
-    GenRandomRoom(map);
-    playerY = 15;
-    playerX = 40;
-  }
 }
 
 void printPlayer(int &y, int &x, char player) {
