@@ -26,23 +26,21 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  char input;
+  char input = 0;
   int y = 15;
   int x = 40;
-  char player = '@';
+  char player = ACS_DIAMOND;
 
   int rows, cols;
 
-  rows = 31;
-  cols = 81;
-
   bool game = true;
-
-  char debug;
 
   initscr();
   noecho();
   curs_set(0);
+  keypad(stdscr, 1);
+  raw();
+  nodelay(stdscr, TRUE);
 
   start_color();
   init_pair(1, COLOR_GREEN, COLOR_BLACK);
@@ -56,10 +54,10 @@ int main(int argc, char *argv[]) {
     attron(COLOR_PAIR(1));
     mvprintw(25, 115, "[Debug mode]");
     attroff(COLOR_PAIR(1));
-    map[30][80] = ' ';
   }
 
   while (game) {
+    input = getch();
 
     if (debugMode) {
       // this is stupid and not efficient, Too bad!
@@ -68,14 +66,25 @@ int main(int argc, char *argv[]) {
       debug_regenMap(input, y, x);
     }
 
-    mvaddch(y, x, ACS_BOARD);
+    if (input == 27) {
+      game = false;
+    }
+
+    printPlayer(y, x, player);
 
     // MOVE CICLE
-    input = getch();
     movePlayer(y, x, input);
   }
 
+  refresh();
   clear();
+
+  getmaxyx(stdscr, rows, cols);
+
+  nodelay(stdscr, 0);
+  mvprintw(rows / 2, cols / 2, "Press any key to exit.");
+
+  getch();
 
   refresh();
   endwin();
