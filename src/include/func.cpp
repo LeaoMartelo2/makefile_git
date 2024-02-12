@@ -4,6 +4,7 @@
 #include <ncurses.h>
 
 void GenRandomRoom(char map[][81], int rows, int cols) {
+  // obstacles
   for (int yy = 0; yy <= rows; yy++) {
     for (int xx = 0; xx <= cols; xx++) {
       if (rand() % 99 == 0) {
