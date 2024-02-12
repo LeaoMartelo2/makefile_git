@@ -1,10 +1,11 @@
 #include "include/func.h"
 #include <cstring>
-#include <curses.h>
 #include <ncurses.h>
 
 #define ROWS 31
 #define COLS 81
+
+char map[31][81];
 
 int main(int argc, char *argv[]) {
 
@@ -31,7 +32,6 @@ int main(int argc, char *argv[]) {
 
   rows = 31;
   cols = 81;
-  char map[31][81];
 
   bool game = true;
 
@@ -47,54 +47,29 @@ int main(int argc, char *argv[]) {
 
   clearMap(map);
   mapBorder(map);
-  GenRandomRoom(map, rows, cols);
+  GenRandomRoom(map);
 
   if (debugMode) {
     attron(COLOR_PAIR(1));
     mvprintw(25, 115, "[Debug mode]");
     attroff(COLOR_PAIR(1));
+    map[30][80] = ' ';
   }
 
   while (game) {
 
     if (debugMode) {
-
       // this is stupid and not efficient, Too bad!
-      mvprintw(27, 115, "X: ");
-      attron(COLOR_PAIR(1));
-      printw("%d ", x);
-      attroff(COLOR_PAIR(1));
-      printw("Y: ");
-      attron(COLOR_PAIR(1));
-      printw("%d    ", y);
-      attroff(COLOR_PAIR(1));
-
-      mvprintw(29, 115, "Last Key: ");
-      attron(COLOR_PAIR(1));
-      addch(input);
-      addch(' ');
-      attroff(COLOR_PAIR(1));
-
-      mvprintw(31, 115, "Press: ");
-      attron(COLOR_PAIR(1));
-      printw("h");
-      attroff(COLOR_PAIR(1));
-      printw(" to re-generate the map.");
-
-      if (input == 'h') {
-        clearMap(map);
-        mapBorder(map);
-        GenRandomRoom(map, rows, cols);
-        y = 15;
-        x = 40;
-        mvaddch(y, x, player);
-      }
+      debug_printPlayerXY(y, x);
+      debug_printLastInput(input);
+      debug_regenMap(input, y, x);
     }
+
+    mvaddch(y, x, player);
 
     // MOVE CICLE
     input = getch();
-    movePlayer(map, y, x, input);
-    mvaddch(y, x, player);
+    movePlayer(y, x, input);
   }
 
   clear();
