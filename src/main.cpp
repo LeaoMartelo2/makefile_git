@@ -75,6 +75,21 @@ int main(int argc, char *argv[]) {
       addch(input);
       addch(' ');
       attroff(COLOR_PAIR(1));
+
+      mvprintw(31, 115, "Press: ");
+      attron(COLOR_PAIR(1));
+      printw("h");
+      attroff(COLOR_PAIR(1));
+      printw(" to re-generate the map.");
+
+      if (input == 'h') {
+        clearMap(map);
+        mapBorder(map);
+        GenRandomRoom(map, rows, cols);
+        y = 15;
+        x = 40;
+        mvaddch(y, x, player);
+      }
     }
 
     // MOVE CICLE
