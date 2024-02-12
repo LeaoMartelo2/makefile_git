@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
   char input;
   int y = 15;
   int x = 40;
-  char player = (char)36;
+  char player = '@';
 
   int rows, cols;
 
