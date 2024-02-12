@@ -1,5 +1,6 @@
 #include "include/func.h"
 #include <cstring>
+#include <locale.h>
 #include <ncurses.h>
 
 #define ROWS 31
@@ -8,6 +9,8 @@
 char map[31][81];
 
 int main(int argc, char *argv[]) {
+
+  setlocale(LC_ALL, "");
 
   // ARGUMENT LIST
   const char *debug_mode_arg = "-debug";
@@ -65,7 +68,7 @@ int main(int argc, char *argv[]) {
       debug_regenMap(input, y, x);
     }
 
-    mvaddch(y, x, player);
+    mvaddch(y, x, ACS_BOARD);
 
     // MOVE CICLE
     input = getch();

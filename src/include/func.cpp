@@ -4,8 +4,8 @@
 
 void GenRandomRoom(char map[][81]) {
   // obstacles
-  for (int yy = 0; yy < 32; yy++) {
-    for (int xx = 0; xx < 82; xx++) {
+  for (int yy = 1; yy < 31; yy++) {
+    for (int xx = 1; xx < 81; xx++) {
       if (rand() % 99 == 0) {
         map[yy][xx] = '#';
         mvaddch(yy, xx, '#');
@@ -15,8 +15,8 @@ void GenRandomRoom(char map[][81]) {
 }
 
 void clearMap(char map[][81]) {
-  for (int yy = 0; yy < 32; yy++) {
-    for (int xx = 0; xx < 82; xx++) {
+  for (int yy = 1; yy < 31; yy++) {
+    for (int xx = 1; xx < 81; xx++) {
       map[yy][xx] = ' ';
       mvaddch(yy, xx, ' ');
     }
@@ -25,19 +25,26 @@ void clearMap(char map[][81]) {
 
 void mapBorder(char map[][81]) {
 
+  // might migrate this for a box(); function
+
   for (int i = 0; i < 82; i++) {
-    map[0][i] = '#';
-    mvaddch(0, i, '#');
-    map[31][i] = '#';
-    mvaddch(31, i, '#');
+    map[0][i] = ACS_HLINE;
+    mvaddch(0, i, ACS_HLINE);
+    map[31][i] = ACS_HLINE;
+    mvaddch(31, i, ACS_HLINE);
   }
 
   for (int i = 0; i < 32; i++) {
-    map[i][0] = '#';
-    mvaddch(i, 0, '#');
-    map[i][81] = '#';
-    mvaddch(i, 81, '#');
+    map[i][0] = ACS_VLINE;
+    mvaddch(i, 0, ACS_VLINE);
+    map[i][81] = ACS_VLINE;
+    mvaddch(i, 81, ACS_VLINE);
   }
+
+  mvaddch(0, 0, ACS_ULCORNER);
+  mvaddch(0, 81, ACS_URCORNER);
+  mvaddch(31, 0, ACS_LLCORNER);
+  mvaddch(31, 81, ACS_LRCORNER);
 }
 
 void debug_printPlayerXY(int &playerY, int &playerX) {
@@ -55,10 +62,20 @@ void debug_printPlayerXY(int &playerY, int &playerX) {
 void debug_printLastInput(char input) {
 
   mvprintw(29, 115, "Last Key: ");
-  attron(COLOR_PAIR(1));
-  addch(input);
-  addch(' ');
-  attroff(COLOR_PAIR(1));
+
+  if (input == 10) {
+
+    attron(COLOR_PAIR(1));
+    addstr("\\n");
+    addch(' ');
+    attroff(COLOR_PAIR(1));
+
+  } else {
+    attron(COLOR_PAIR(1));
+    addch(input);
+    addch(' ');
+    attroff(COLOR_PAIR(1));
+  }
 }
 
 void debug_regenMap(char input, int &playerY, int &playerX) {
@@ -72,7 +89,7 @@ void debug_regenMap(char input, int &playerY, int &playerX) {
 
   if (input == 'h') {
     clearMap(map);
-    mapBorder(map);
+    //   mapBorder(map);
     GenRandomRoom(map);
     playerY = 15;
     playerX = 40;
