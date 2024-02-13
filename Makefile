@@ -21,4 +21,4 @@ debug.o: ${INCLUDE}debug.cpp
 	${CC} ${FLAGS} -c $^ -o $@
 
 stats.o: ${INCLUDE}stats.cpp
-	${CC} ${FLAGS} -c $^ $@
+	${CC} ${FLAGS} -c $^ -o $@

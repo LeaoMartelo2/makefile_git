@@ -1,6 +1,6 @@
 #ifndef STATS_H
 #define STATS_H
 
-void build_menu();
+void update_menu(int health, int coins);
 
 #endif

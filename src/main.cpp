@@ -10,6 +10,9 @@
 
 char map[31][81];
 
+int coins = 0;
+int health = 100;
+
 int main(int argc, char *argv[]) {
 
   setlocale(LC_ALL, "");
@@ -51,12 +54,13 @@ int main(int argc, char *argv[]) {
   init_pair(3, COLOR_CYAN, COLOR_BLACK);
   init_pair(4, COLOR_BLACK, COLOR_WHITE);
   init_pair(5, COLOR_YELLOW, COLOR_BLACK);
+  init_pair(6, COLOR_RED, COLOR_BLACK);
 
   clearMap(map);
   mapBorder(map);
   GenRandomRoom(map);
 
-  build_menu();
+  update_menu(health, coins);
 
   if (debugMode) {
     debug_header();
@@ -64,6 +68,8 @@ int main(int argc, char *argv[]) {
 
   while (game) {
     input = getch();
+
+    update_menu(health, coins);
 
     if (debugMode) {
       // this is stupid and not efficient, Too bad!
@@ -90,7 +96,7 @@ int main(int argc, char *argv[]) {
   nodelay(stdscr, 0);
   mvprintw(rows / 2, (cols / 2) - 6, "Press any key to exit.");
 
-  getch();
+  // getch();
 
   refresh();
   endwin();

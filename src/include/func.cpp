@@ -149,48 +149,94 @@ char get_behavior(int y, int x) {
     return BEHAVIOR_SOLID_WALL;
   }
 
+  if (map[y][x] == BEHAVIOR_COLLECTIBLE_COIN) {
+    return BEHAVIOR_COLLECTIBLE_COIN;
+  }
+
   return BEHAVIOR_EMPTY;
 }
 
 void movePlayer(int &y, int &x, char input) {
 
   extern char map[31][81];
+  extern int coins;
+  extern int health;
+
+  bool cancel_movement = false;
 
   switch (input) {
   case 'w':
-
     if (get_behavior(y - 1, x) == BEHAVIOR_EMPTY) {
-      mvaddch(y, x, BEHAVIOR_EMPTY);
-      y--;
+      cancel_movement = false;
     } else if (get_behavior(y - 1, x) == BEHAVIOR_SOLID_WALL) {
+      cancel_movement = true;
       debug_log("Colision with bottom of BEHAVIOR_SOLID_WALL");
+    } else if (get_behavior(y - 1, x) == BEHAVIOR_COLLECTIBLE_COIN) {
+      cancel_movement = false;
+      debug_log("Colision with bottom of BEHAVIOR_COLLECTIBLE_COIN");
+      coins++;
     }
+
+    if (!cancel_movement) {
+      add_obj(y, x, BEHAVIOR_EMPTY, BEHAVIOR_EMPTY);
+      y--;
+    }
+
     break;
 
   case 's':
     if (get_behavior(y + 1, x) == BEHAVIOR_EMPTY) {
-      mvaddch(y, x, BEHAVIOR_EMPTY);
-      y++;
+      cancel_movement = false;
     } else if (get_behavior(y + 1, x) == BEHAVIOR_SOLID_WALL) {
+      cancel_movement = true;
       debug_log("Collision with top of BEHAVIOR_SOLID_WALL");
+    } else if (get_behavior(y + 1, x) == BEHAVIOR_COLLECTIBLE_COIN) {
+      cancel_movement = false;
+      debug_log("Colision with top of BEHAVIOR_COLLECTIBLE_COIN");
+      coins++;
     }
+
+    if (!cancel_movement) {
+      add_obj(y, x, BEHAVIOR_EMPTY, BEHAVIOR_EMPTY);
+      y++;
+    }
+
     break;
 
   case 'a':
     if (get_behavior(y, x - 1) == BEHAVIOR_EMPTY) {
-      mvaddch(y, x, BEHAVIOR_EMPTY);
-      x--;
+      cancel_movement = false;
     } else if (get_behavior(y, x - 1) == BEHAVIOR_SOLID_WALL) {
+      cancel_movement = true;
       debug_log("Collision with right side of BEHAVIOR_SOLID_WALL");
+    } else if (get_behavior(y, x - 1) == BEHAVIOR_COLLECTIBLE_COIN) {
+      cancel_movement = false;
+      debug_log("Collision with right side of BEHAVIOR_COLLECTIBLE_COIN");
+      coins++;
     }
+
+    if (!cancel_movement) {
+      add_obj(y, x, BEHAVIOR_EMPTY, BEHAVIOR_EMPTY);
+      x--;
+    }
+
     break;
 
   case 'd':
     if (get_behavior(y, x + 1) == BEHAVIOR_EMPTY) {
-      mvaddch(y, x, BEHAVIOR_EMPTY);
-      x++;
+      cancel_movement = false;
     } else if (get_behavior(y, x + 1) == BEHAVIOR_SOLID_WALL) {
+      cancel_movement = true;
       debug_log("Collision with left side of BEHAVIOR_SOLID_WALL");
+    } else if (get_behavior(y, x + 1) == BEHAVIOR_COLLECTIBLE_COIN) {
+      cancel_movement = false;
+      debug_log("Collision with left side of BEHAVIOR_COLLECTIBLE_COIN");
+      coins++;
+    }
+
+    if (!cancel_movement) {
+      add_obj(y, x, BEHAVIOR_EMPTY, BEHAVIOR_EMPTY);
+      x++;
     }
     break;
   default:
