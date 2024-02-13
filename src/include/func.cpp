@@ -92,8 +92,10 @@ void roomPopulate_Coins() {
       if (rand() % 999 == 0) {
         map[yy][xx] = BEHAVIOR_COLLECTIBLE_COIN;
         attron(COLOR_PAIR(5));
-        mvaddch(yy, xx, 'o');
+        attron(A_BOLD);
+        mvaddch(yy, xx, '.');
         attroff(COLOR_PAIR(5));
+        attroff(A_BOLD);
       }
     }
   }

@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
   mapBorder(map);
   GenRandomRoom(map);
 
-  update_menu(health, coins);
+  update_menu();
 
   if (debugMode) {
     debug_header();
@@ -69,10 +69,9 @@ int main(int argc, char *argv[]) {
   while (game) {
     input = getch();
 
-    update_menu(health, coins);
+    update_menu();
 
     if (debugMode) {
-      // this is stupid and not efficient, Too bad!
       debug_printPlayerXY(y, x);
       debug_printLastInput(input);
       debug_regenMap(input, y, x);
