@@ -1,4 +1,5 @@
 #include "func.h"
+#include "debug.h"
 #include <cstdlib>
 #include <ncurses.h>
 
@@ -112,7 +113,17 @@ void printPlayer(int &y, int &x, char player) {
   attroff(COLOR_PAIR(1));
 }
 
-// char check_coord(int y_offset, int x_offset)
+char get_behavior(int y, int x) {
+
+  extern char map[31][81];
+
+  if (map[y][x] == BEHAVIOR_SOLID_WALL) {
+
+    return BEHAVIOR_SOLID_WALL;
+  }
+
+  return BEHAVIOR_EMPTY;
+}
 
 void movePlayer(int &y, int &x, char input) {
 
@@ -120,34 +131,39 @@ void movePlayer(int &y, int &x, char input) {
 
   switch (input) {
   case 'w':
-    if (map[y - 1][x] == BEHAVIOR_SOLID_WALL) {
-    } else {
+
+    if (get_behavior(y - 1, x) == BEHAVIOR_EMPTY) {
       mvaddch(y, x, BEHAVIOR_EMPTY);
       y--;
+    } else if (get_behavior(y - 1, x) == BEHAVIOR_SOLID_WALL) {
+      debug_log("Colision with bottom of BEHAVIOR_SOLID_WALL");
     }
     break;
 
   case 's':
-    if (map[y + 1][x] == BEHAVIOR_SOLID_WALL) {
-    } else {
+    if (get_behavior(y + 1, x) == BEHAVIOR_EMPTY) {
       mvaddch(y, x, BEHAVIOR_EMPTY);
       y++;
+    } else if (get_behavior(y + 1, x) == BEHAVIOR_SOLID_WALL) {
+      debug_log("Collision with top of BEHAVIOR_SOLID_WALL");
     }
     break;
 
   case 'a':
-    if (map[y][x - 1] == BEHAVIOR_SOLID_WALL) {
-    } else {
+    if (get_behavior(y, x - 1) == BEHAVIOR_EMPTY) {
       mvaddch(y, x, BEHAVIOR_EMPTY);
       x--;
+    } else if (get_behavior(y, x - 1) == BEHAVIOR_SOLID_WALL) {
+      debug_log("Collision with right side of BEHAVIOR_SOLID_WALL");
     }
     break;
 
   case 'd':
-    if (map[y][x + 1] == BEHAVIOR_SOLID_WALL) {
-    } else {
+    if (get_behavior(y, x + 1) == BEHAVIOR_EMPTY) {
       mvaddch(y, x, BEHAVIOR_EMPTY);
       x++;
+    } else if (get_behavior(y, x + 1) == BEHAVIOR_SOLID_WALL) {
+      debug_log("Collision with left side of BEHAVIOR_SOLID_WALL");
     }
     break;
   default:

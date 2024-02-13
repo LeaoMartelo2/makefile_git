@@ -54,9 +54,7 @@ int main(int argc, char *argv[]) {
   GenRandomRoom(map);
 
   if (debugMode) {
-    attron(COLOR_PAIR(1));
-    mvprintw(25, 115, "[Debug mode]");
-    attroff(COLOR_PAIR(1));
+    debug_header();
   }
 
   while (game) {

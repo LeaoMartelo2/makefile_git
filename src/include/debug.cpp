@@ -57,3 +57,23 @@ void debug_regenMap(char input, int &playerY, int &playerX) {
     playerX = 40;
   }
 }
+
+void debug_header() {
+
+  attron(COLOR_PAIR(1));
+  mvprintw(25, 115, "[Debug mode]");
+  attroff(COLOR_PAIR(1));
+}
+
+void debug_log(const char *message) {
+
+  const char *debug_log_header = "[Debug] ";
+
+  attron(COLOR_PAIR(1));
+  mvprintw(33, 70, "Last debug log: ");
+  attroff(COLOR_PAIR(1));
+
+  addstr(debug_log_header);
+  addstr(message);
+  printw("                                              ");
+}

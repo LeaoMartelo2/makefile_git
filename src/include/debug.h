@@ -7,4 +7,8 @@ void debug_printLastInput(char input);
 
 void debug_regenMap(char input, int &playerY, int &playerX);
 
+void debug_header();
+
+void debug_log(const char *message);
+
 #endif // !DEBUG_H
