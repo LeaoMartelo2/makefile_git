@@ -1,5 +1,6 @@
 #include "include/debug.h"
 #include "include/func.h"
+#include "include/stats.h"
 #include <cstring>
 #include <locale.h>
 #include <ncurses.h>
@@ -44,14 +45,18 @@ int main(int argc, char *argv[]) {
   nodelay(stdscr, TRUE);
 
   start_color();
+
   init_pair(1, COLOR_GREEN, COLOR_BLACK);
   init_pair(2, COLOR_RED, COLOR_BLACK);
   init_pair(3, COLOR_CYAN, COLOR_BLACK);
   init_pair(4, COLOR_BLACK, COLOR_WHITE);
+  init_pair(5, COLOR_YELLOW, COLOR_BLACK);
 
   clearMap(map);
   mapBorder(map);
   GenRandomRoom(map);
+
+  build_menu();
 
   if (debugMode) {
     debug_header();
@@ -65,12 +70,6 @@ int main(int argc, char *argv[]) {
       debug_printPlayerXY(y, x);
       debug_printLastInput(input);
       debug_regenMap(input, y, x);
-
-      /*
-           if (input == 'l') {
-             add_obj(15, 25, '#', BEHAVIOR_EMPTY, 1);
-           }
-      */
     }
 
     if (input == 27) {

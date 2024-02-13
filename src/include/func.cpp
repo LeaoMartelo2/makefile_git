@@ -7,14 +7,23 @@ void add_obj(int y, int x, char visual, char behavior, int color_attr) {
 
   extern char map[31][81];
 
-  map[y][x] = behavior;
-  attron(COLOR_PAIR(color_attr));
-  mvaddch(y, x, visual);
-  attroff(COLOR_PAIR(color_attr));
+  // make sure not to write outside the array, if given coords are out the map
+  // turn it in to a visual only obj
+
+  if (y > 31 || x > 81) {
+    attron(COLOR_PAIR(color_attr));
+    mvaddch(y, x, visual);
+    attroff(COLOR_PAIR(color_attr));
+  } else {
+
+    map[y][x] = behavior;
+    attron(COLOR_PAIR(color_attr));
+    mvaddch(y, x, visual);
+    attroff(COLOR_PAIR(color_attr));
+  }
 }
 
 void GenRandomRoom(char map[][81]) {
-  // obstacles
 
   for (int yy = 1; yy < 31; yy++) {
     for (int xx = 1; xx < 81; xx++) {
@@ -68,6 +77,24 @@ void GenRandomRoom(char map[][81]) {
     for (int j = 1; j < 4; j++) {
       map[rand0 + j][rand1 + 6] = BEHAVIOR_SOLID_WALL;
       mvaddch(rand0 + j, rand1 + 6, ACS_VLINE);
+    }
+  }
+
+  roomPopulate_Coins();
+}
+
+void roomPopulate_Coins() {
+
+  extern char map[31][81];
+
+  for (int yy = 1; yy < 31; yy++) {
+    for (int xx = 1; xx < 81; xx++) {
+      if (rand() % 999 == 0) {
+        map[yy][xx] = BEHAVIOR_COLLECTIBLE_COIN;
+        attron(COLOR_PAIR(5));
+        mvaddch(yy, xx, 'o');
+        attroff(COLOR_PAIR(5));
+      }
     }
   }
 }
