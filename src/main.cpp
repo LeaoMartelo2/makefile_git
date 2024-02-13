@@ -67,6 +67,12 @@ int main(int argc, char *argv[]) {
       debug_printPlayerXY(y, x);
       debug_printLastInput(input);
       debug_regenMap(input, y, x);
+
+      /*
+           if (input == 'l') {
+             add_obj(15, 25, '#', BEHAVIOR_EMPTY, 1);
+           }
+      */
     }
 
     if (input == 27) {

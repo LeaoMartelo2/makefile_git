@@ -4,7 +4,7 @@
 
 void debug_printPlayerXY(int &playerY, int &playerX) {
 
-  mvprintw(27, 116, "X: ");
+  mvprintw(27, 115, "X: ");
   attron(COLOR_PAIR(1));
   printw("%d ", playerX);
   attroff(COLOR_PAIR(1));
