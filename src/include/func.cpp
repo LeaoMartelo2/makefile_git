@@ -2,6 +2,7 @@
 #include "debug.h"
 #include <cstdlib>
 #include <ncurses.h>
+#include <string>
 
 void add_obj(int y, int x, char visual, char behavior, int color_attr) {
 
@@ -173,34 +174,40 @@ void printPlayer(int &y, int &x, char player) {
   attroff(COLOR_PAIR(1));
 }
 
-char get_behavior(int y, int x, bool &block_movement) {
+char get_behavior(int y, int x, bool &block_movement,
+                  std::string &behavior_name) {
 
   extern char map[31][81];
 
   if (map[y][x] == BEHAVIOR_SOLID_WALL) {
     block_movement = true;
+    behavior_name = "BEHAVIOR_SOLID_WALL";
     return BEHAVIOR_SOLID_WALL;
   }
 
   if (map[y][x] == BEHAVIOR_COLLECTIBLE_COIN) {
     block_movement = false;
     modifyCoins(1);
+    behavior_name = "BEHAVIOR_COLLECTIBLE_COIN";
     return BEHAVIOR_COLLECTIBLE_COIN;
   }
 
   if (map[y][x] == BEHAVIOR_DAMAGE_SOLID) {
     block_movement = true;
     modifyHealth(-1);
+    behavior_name = "BEHAVIOR_DAMAGE_SOLID";
     return BEHAVIOR_DAMAGE_SOLID;
   }
 
   if (map[y][x] == BEHAVIOR_EMPTY) {
     block_movement = false;
+    behavior_name = "BEHAVIOR_EMPTY";
     return BEHAVIOR_EMPTY;
   }
 
   // last ditch effort if the game does not know what you colided with
   block_movement = false;
+  behavior_name = "BEHAVIOR_UNKNOWN";
   return BEHAVIOR_UNKNOWN;
 }
 
@@ -212,14 +219,15 @@ void movePlayer(int &y, int &x, char input) {
 
   bool cancel_movement = false;
   char localcheck;
+  std::string behavior_name;
 
   switch (input) {
   case 'w':
 
-    localcheck = get_behavior(y - 1, x, cancel_movement);
+    localcheck = get_behavior(y - 1, x, cancel_movement, behavior_name);
 
     if (localcheck != BEHAVIOR_EMPTY) {
-      debug_log_colision("Colision with bottom of ", localcheck);
+      debug_log_colision("Colision with bottom of ", behavior_name.c_str());
     }
 
     if (!cancel_movement) {
@@ -230,10 +238,10 @@ void movePlayer(int &y, int &x, char input) {
 
   case 's':
 
-    localcheck = get_behavior(y + 1, x, cancel_movement);
+    localcheck = get_behavior(y + 1, x, cancel_movement, behavior_name);
 
     if (localcheck != BEHAVIOR_EMPTY) {
-      debug_log_colision("Colision with top of ", localcheck);
+      debug_log_colision("Colision with top of ", behavior_name.c_str());
     }
 
     if (!cancel_movement) {
@@ -245,11 +253,11 @@ void movePlayer(int &y, int &x, char input) {
 
   case 'a':
 
-    localcheck = get_behavior(y, x - 1, cancel_movement);
+    localcheck = get_behavior(y, x - 1, cancel_movement, behavior_name);
 
     if (localcheck != BEHAVIOR_EMPTY) {
 
-      debug_log_colision("Colision with right side of ", localcheck);
+      debug_log_colision("Colision with right side of ", behavior_name.c_str());
     }
 
     if (!cancel_movement) {
@@ -261,10 +269,10 @@ void movePlayer(int &y, int &x, char input) {
 
   case 'd':
 
-    localcheck = get_behavior(y, x + 1, cancel_movement);
+    localcheck = get_behavior(y, x + 1, cancel_movement, behavior_name);
 
     if (localcheck != BEHAVIOR_EMPTY) {
-      debug_log_colision("Colision with left side of ", localcheck);
+      debug_log_colision("Colision with left side of ", behavior_name.c_str());
     }
 
     if (!cancel_movement) {

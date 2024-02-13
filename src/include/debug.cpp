@@ -78,7 +78,7 @@ void debug_log(const char *message) {
   printw("                                              ");
 }
 
-void debug_log_colision(const char *position, char behavior) {
+void debug_log_colision(const char *position, const char *behavior) {
 
   const char *debug_log_header = "[Debug] ";
 
@@ -89,7 +89,7 @@ void debug_log_colision(const char *position, char behavior) {
   addstr(debug_log_header);
   addstr(position);
   attron(COLOR_PAIR(1));
-  addch(behavior);
+  addstr(behavior);
   attroff(COLOR_PAIR(1));
   printw("                                                ");
 }

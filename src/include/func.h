@@ -1,6 +1,8 @@
 #ifndef FUNC_H
 #define FUNC_H
 
+#include <string>
+
 #define BEHAVIOR_SOLID_WALL '#'
 #define BEHAVIOR_COLLECTIBLE_COIN '$'
 #define BEHAVIOR_DAMAGE_SOLID 'D'
@@ -27,5 +29,8 @@ void spawn_damage_solid(int count);
 void modifyCoins(int ammount);
 
 void modifyHealth(int ammount);
+
+char get_behavior(int y, int x, bool &block_movement,
+                  std::string &behavior_name);
 
 #endif
