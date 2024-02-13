@@ -101,7 +101,38 @@ void roomPopulate_Coins() {
   }
 }
 
-void clearMap(char map[][81]) {
+void modifyCoins(int ammount) {
+  extern int coins;
+
+  coins = coins + ammount;
+}
+
+void modifyHealth(int ammount) {
+  extern int health;
+
+  health = health + ammount;
+}
+
+void spawn_damage_solid(int count) {
+
+  extern char map[31][81];
+
+  for (int i = 0; i < count; i++) {
+
+    int randY = rand() % 30 + 1;
+    int randX = rand() % 80 + 1;
+
+    map[randY][randX] = BEHAVIOR_DAMAGE_SOLID;
+    attron(COLOR_PAIR(2));
+    mvaddch(randY, randX, ACS_DIAMOND);
+    attroff(COLOR_PAIR(2));
+  }
+}
+
+void clearMap() {
+
+  extern char map[31][81];
+
   for (int yy = 1; yy < 31; yy++) {
     for (int xx = 1; xx < 81; xx++) {
       map[yy][xx] = BEHAVIOR_EMPTY;
@@ -142,20 +173,35 @@ void printPlayer(int &y, int &x, char player) {
   attroff(COLOR_PAIR(1));
 }
 
-char get_behavior(int y, int x) {
+char get_behavior(int y, int x, bool &block_movement) {
 
   extern char map[31][81];
 
   if (map[y][x] == BEHAVIOR_SOLID_WALL) {
-
+    block_movement = true;
     return BEHAVIOR_SOLID_WALL;
   }
 
   if (map[y][x] == BEHAVIOR_COLLECTIBLE_COIN) {
+    block_movement = false;
+    modifyCoins(1);
     return BEHAVIOR_COLLECTIBLE_COIN;
   }
 
-  return BEHAVIOR_EMPTY;
+  if (map[y][x] == BEHAVIOR_DAMAGE_SOLID) {
+    block_movement = true;
+    modifyHealth(-1);
+    return BEHAVIOR_DAMAGE_SOLID;
+  }
+
+  if (map[y][x] == BEHAVIOR_EMPTY) {
+    block_movement = false;
+    return BEHAVIOR_EMPTY;
+  }
+
+  // last ditch effort if the game does not know what you colided with
+  block_movement = false;
+  return BEHAVIOR_UNKNOWN;
 }
 
 void movePlayer(int &y, int &x, char input) {
@@ -165,37 +211,29 @@ void movePlayer(int &y, int &x, char input) {
   extern int health;
 
   bool cancel_movement = false;
+  char localcheck;
 
   switch (input) {
   case 'w':
-    if (get_behavior(y - 1, x) == BEHAVIOR_EMPTY) {
-      cancel_movement = false;
-    } else if (get_behavior(y - 1, x) == BEHAVIOR_SOLID_WALL) {
-      cancel_movement = true;
-      debug_log("Colision with bottom of BEHAVIOR_SOLID_WALL");
-    } else if (get_behavior(y - 1, x) == BEHAVIOR_COLLECTIBLE_COIN) {
-      cancel_movement = false;
-      debug_log("Colision with bottom of BEHAVIOR_COLLECTIBLE_COIN");
-      coins++;
+
+    localcheck = get_behavior(y - 1, x, cancel_movement);
+
+    if (localcheck != BEHAVIOR_EMPTY) {
+      debug_log_colision("Colision with bottom of ", localcheck);
     }
 
     if (!cancel_movement) {
       add_obj(y, x, BEHAVIOR_EMPTY, BEHAVIOR_EMPTY);
       y--;
     }
-
     break;
 
   case 's':
-    if (get_behavior(y + 1, x) == BEHAVIOR_EMPTY) {
-      cancel_movement = false;
-    } else if (get_behavior(y + 1, x) == BEHAVIOR_SOLID_WALL) {
-      cancel_movement = true;
-      debug_log("Collision with top of BEHAVIOR_SOLID_WALL");
-    } else if (get_behavior(y + 1, x) == BEHAVIOR_COLLECTIBLE_COIN) {
-      cancel_movement = false;
-      debug_log("Colision with top of BEHAVIOR_COLLECTIBLE_COIN");
-      coins++;
+
+    localcheck = get_behavior(y + 1, x, cancel_movement);
+
+    if (localcheck != BEHAVIOR_EMPTY) {
+      debug_log_colision("Colision with top of ", localcheck);
     }
 
     if (!cancel_movement) {
@@ -206,15 +244,12 @@ void movePlayer(int &y, int &x, char input) {
     break;
 
   case 'a':
-    if (get_behavior(y, x - 1) == BEHAVIOR_EMPTY) {
-      cancel_movement = false;
-    } else if (get_behavior(y, x - 1) == BEHAVIOR_SOLID_WALL) {
-      cancel_movement = true;
-      debug_log("Collision with right side of BEHAVIOR_SOLID_WALL");
-    } else if (get_behavior(y, x - 1) == BEHAVIOR_COLLECTIBLE_COIN) {
-      cancel_movement = false;
-      debug_log("Collision with right side of BEHAVIOR_COLLECTIBLE_COIN");
-      coins++;
+
+    localcheck = get_behavior(y, x - 1, cancel_movement);
+
+    if (localcheck != BEHAVIOR_EMPTY) {
+
+      debug_log_colision("Colision with right side of ", localcheck);
     }
 
     if (!cancel_movement) {
@@ -225,15 +260,11 @@ void movePlayer(int &y, int &x, char input) {
     break;
 
   case 'd':
-    if (get_behavior(y, x + 1) == BEHAVIOR_EMPTY) {
-      cancel_movement = false;
-    } else if (get_behavior(y, x + 1) == BEHAVIOR_SOLID_WALL) {
-      cancel_movement = true;
-      debug_log("Collision with left side of BEHAVIOR_SOLID_WALL");
-    } else if (get_behavior(y, x + 1) == BEHAVIOR_COLLECTIBLE_COIN) {
-      cancel_movement = false;
-      debug_log("Collision with left side of BEHAVIOR_COLLECTIBLE_COIN");
-      coins++;
+
+    localcheck = get_behavior(y, x + 1, cancel_movement);
+
+    if (localcheck != BEHAVIOR_EMPTY) {
+      debug_log_colision("Colision with left side of ", localcheck);
     }
 
     if (!cancel_movement) {

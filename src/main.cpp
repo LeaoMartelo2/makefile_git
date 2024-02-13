@@ -56,9 +56,11 @@ int main(int argc, char *argv[]) {
   init_pair(5, COLOR_YELLOW, COLOR_BLACK);
   init_pair(6, COLOR_RED, COLOR_BLACK);
 
-  clearMap(map);
+  clearMap();
   mapBorder(map);
   GenRandomRoom(map);
+
+  spawn_damage_solid(5);
 
   update_menu();
 

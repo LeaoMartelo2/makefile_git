@@ -11,4 +11,6 @@ void debug_header();
 
 void debug_log(const char *message);
 
+void debug_log_colision(const char *position, char behavior);
+
 #endif // !DEBUG_H

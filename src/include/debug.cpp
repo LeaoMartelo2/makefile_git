@@ -50,7 +50,7 @@ void debug_regenMap(char input, int &playerY, int &playerX) {
   printw("generate the map.");
 
   if (input == 'h') {
-    clearMap(map);
+    clearMap();
     //   mapBorder(map);
     GenRandomRoom(map);
     playerY = 15;
@@ -76,4 +76,20 @@ void debug_log(const char *message) {
   addstr(debug_log_header);
   addstr(message);
   printw("                                              ");
+}
+
+void debug_log_colision(const char *position, char behavior) {
+
+  const char *debug_log_header = "[Debug] ";
+
+  attron(COLOR_PAIR(1));
+  mvprintw(33, 70, "Last debug log: ");
+  attroff(COLOR_PAIR(1));
+
+  addstr(debug_log_header);
+  addstr(position);
+  attron(COLOR_PAIR(1));
+  addch(behavior);
+  attroff(COLOR_PAIR(1));
+  printw("                                                ");
 }
