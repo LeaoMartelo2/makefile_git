@@ -82,6 +82,8 @@ void GenRandomRoom(char map[][81]) {
   }
 
   roomPopulate_Coins();
+
+  spawn_damage_solid(rand() % 5 + 1);
 }
 
 void roomPopulate_Coins() {
@@ -110,6 +112,8 @@ void modifyCoins(int ammount) {
 
 void modifyHealth(int ammount) {
   extern int health;
+
+  // flash();  need to find a better way to give damage feedback
 
   health = health + ammount;
 }

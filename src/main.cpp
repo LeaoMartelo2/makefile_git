@@ -60,8 +60,6 @@ int main(int argc, char *argv[]) {
   mapBorder(map);
   GenRandomRoom(map);
 
-  spawn_damage_solid(5);
-
   update_menu();
 
   if (debugMode) {
