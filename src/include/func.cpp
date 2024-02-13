@@ -26,6 +26,7 @@ void add_obj(int y, int x, char visual, char behavior, int color_attr) {
 
 void GenRandomRoom(char map[][81]) {
 
+  /*
   for (int yy = 1; yy < 31; yy++) {
     for (int xx = 1; xx < 81; xx++) {
       if (rand() % 99 == 0) {
@@ -34,6 +35,7 @@ void GenRandomRoom(char map[][81]) {
       }
     }
   }
+  */
 
   int random_squares = rand() % 5 + 1;
 
@@ -84,6 +86,7 @@ void GenRandomRoom(char map[][81]) {
   roomPopulate_Coins();
 
   spawn_damage_solid(rand() % 5 + 1);
+  spawn_spiketop(rand() % 5 + 1);
 }
 
 void roomPopulate_Coins() {
@@ -134,6 +137,20 @@ void spawn_damage_solid(int count) {
   }
 }
 
+void spawn_spiketop(int count) {
+  extern char map[31][81];
+
+  for (int i = 0; i < count; i++) {
+    int randY = rand() % 30 + 1;
+    int randX = rand() % 80 + 1;
+
+    map[randY][randX] = BEHAVIOR_SPIKETOP_SOLID;
+    attron(COLOR_PAIR(2));
+    mvaddch(randY, randX, ACS_PLMINUS);
+    attroff(COLOR_PAIR(2));
+  }
+}
+
 void clearMap() {
 
   extern char map[31][81];
@@ -179,7 +196,7 @@ void printPlayer(int &y, int &x, char player) {
 }
 
 char get_behavior(int y, int x, bool &block_movement,
-                  std::string &behavior_name) {
+                  std::string &behavior_name, char side) {
 
   extern char map[31][81];
 
@@ -203,6 +220,15 @@ char get_behavior(int y, int x, bool &block_movement,
     return BEHAVIOR_DAMAGE_SOLID;
   }
 
+  if (map[y][x] == BEHAVIOR_SPIKETOP_SOLID) {
+    block_movement = true;
+    if (side == 's') {
+      modifyHealth(-1);
+    }
+    behavior_name = "BEHAVIOR_SPIKETOP_SOLID";
+    return BEHAVIOR_SPIKETOP_SOLID;
+  }
+
   if (map[y][x] == BEHAVIOR_EMPTY) {
     block_movement = false;
     behavior_name = "BEHAVIOR_EMPTY";
@@ -218,6 +244,7 @@ char get_behavior(int y, int x, bool &block_movement,
 void movePlayer(int &y, int &x, char input) {
 
   extern char map[31][81];
+  extern bool debugMode;
   extern int coins;
   extern int health;
 
@@ -228,10 +255,11 @@ void movePlayer(int &y, int &x, char input) {
   switch (input) {
   case 'w':
 
-    localcheck = get_behavior(y - 1, x, cancel_movement, behavior_name);
+    localcheck = get_behavior(y - 1, x, cancel_movement, behavior_name, 'w');
 
     if (localcheck != BEHAVIOR_EMPTY) {
-      debug_log_colision("Colision with bottom of ", behavior_name.c_str());
+      if (debugMode)
+        debug_log_colision("Colision with bottom of ", behavior_name.c_str());
     }
 
     if (!cancel_movement) {
@@ -242,10 +270,11 @@ void movePlayer(int &y, int &x, char input) {
 
   case 's':
 
-    localcheck = get_behavior(y + 1, x, cancel_movement, behavior_name);
+    localcheck = get_behavior(y + 1, x, cancel_movement, behavior_name, 's');
 
     if (localcheck != BEHAVIOR_EMPTY) {
-      debug_log_colision("Colision with top of ", behavior_name.c_str());
+      if (debugMode)
+        debug_log_colision("Colision with top of ", behavior_name.c_str());
     }
 
     if (!cancel_movement) {
@@ -257,11 +286,12 @@ void movePlayer(int &y, int &x, char input) {
 
   case 'a':
 
-    localcheck = get_behavior(y, x - 1, cancel_movement, behavior_name);
+    localcheck = get_behavior(y, x - 1, cancel_movement, behavior_name, 'a');
 
     if (localcheck != BEHAVIOR_EMPTY) {
-
-      debug_log_colision("Colision with right side of ", behavior_name.c_str());
+      if (debugMode)
+        debug_log_colision("Colision with right side of ",
+                           behavior_name.c_str());
     }
 
     if (!cancel_movement) {
@@ -273,10 +303,12 @@ void movePlayer(int &y, int &x, char input) {
 
   case 'd':
 
-    localcheck = get_behavior(y, x + 1, cancel_movement, behavior_name);
+    localcheck = get_behavior(y, x + 1, cancel_movement, behavior_name, 'd');
 
     if (localcheck != BEHAVIOR_EMPTY) {
-      debug_log_colision("Colision with left side of ", behavior_name.c_str());
+      if (debugMode)
+        debug_log_colision("Colision with left side of ",
+                           behavior_name.c_str());
     }
 
     if (!cancel_movement) {

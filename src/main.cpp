@@ -10,6 +10,8 @@
 
 char map[31][81];
 
+bool debugMode = false;
+
 int coins = 0;
 int health = 100;
 
@@ -19,15 +21,11 @@ int main(int argc, char *argv[]) {
 
   // ARGUMENT LIST
   const char *debug_mode_arg = "-debug";
-  bool debugMode = false;
 
   if (argc > 1) {
 
     if (std::strcmp(argv[1], debug_mode_arg) == 0) {
       debugMode = true;
-      //     std::cin.get();
-    } else {
-      // pass
     }
   }
 

@@ -6,6 +6,7 @@
 #define BEHAVIOR_SOLID_WALL '#'
 #define BEHAVIOR_COLLECTIBLE_COIN '$'
 #define BEHAVIOR_DAMAGE_SOLID 'D'
+#define BEHAVIOR_SPIKETOP_SOLID '^'
 #define BEHAVIOR_EMPTY ' '
 #define BEHAVIOR_UNKNOWN 'U'
 
@@ -31,6 +32,8 @@ void modifyCoins(int ammount);
 void modifyHealth(int ammount);
 
 char get_behavior(int y, int x, bool &block_movement,
-                  std::string &behavior_name);
+                  std::string &behavior_name, char side = ' ');
+
+void spawn_spiketop(int count);
 
 #endif
