@@ -4,6 +4,7 @@
 
 void GenRandomRoom(char map[][81]) {
   // obstacles
+
   for (int yy = 1; yy < 31; yy++) {
     for (int xx = 1; xx < 81; xx++) {
       if (rand() % 99 == 0) {
@@ -12,6 +13,59 @@ void GenRandomRoom(char map[][81]) {
       }
     }
   }
+
+  int rand0 = rand() % 26 + 1;
+  int rand1 = rand() % 73 + 1;
+
+  // top
+  map[rand0][rand1] = '#';
+  mvaddch(rand0, rand1, ACS_ULCORNER);
+  map[rand0][rand1 + 1] = '#';
+  mvaddch(rand0, rand1 + 1, ACS_HLINE);
+  map[rand0][rand1 + 2] = '#';
+  mvaddch(rand0, rand1 + 2, ACS_HLINE);
+  map[rand0][rand1 + 3] = '#';
+  mvaddch(rand0, rand1 + 3, ACS_HLINE);
+  map[rand0][rand1 + 4] = '#';
+  mvaddch(rand0, rand1 + 4, ACS_HLINE);
+  map[rand0][rand1 + 5] = '#';
+  mvaddch(rand0, rand1 + 5, ACS_HLINE);
+  map[rand0][rand1 + 6] = '#';
+  mvaddch(rand0, rand1 + 6, ACS_URCORNER);
+
+  // bottom
+  map[rand0 + 4][rand1] = '#';
+  mvaddch(rand0 + 4, rand1, ACS_LLCORNER);
+  map[rand0 + 4][rand1 + 1] = '#';
+  mvaddch(rand0 + 4, rand1 + 1, ACS_HLINE);
+  map[rand0 + 4][rand1 + 2] = '#';
+  mvaddch(rand0 + 4, rand1 + 2, ACS_HLINE);
+  map[rand0 + 4][rand1 + 3] = '#';
+  mvaddch(rand0 + 4, rand1 + 3, ACS_HLINE);
+  map[rand0 + 4][rand1 + 4] = '#';
+  mvaddch(rand0 + 4, rand1 + 4, ACS_HLINE);
+  map[rand0 + 4][rand1 + 5] = '#';
+  mvaddch(rand0 + 4, rand1 + 5, ACS_HLINE);
+  map[rand0 + 4][rand1 + 6] = '#';
+  mvaddch(rand0 + 4, rand1 + 6, ACS_LRCORNER);
+
+  // left side
+
+  map[rand0 + 1][rand1] = '#';
+  mvaddch(rand0 + 1, rand1, ACS_VLINE);
+  map[rand0 + 2][rand1] = '#';
+  mvaddch(rand0 + 2, rand1, ACS_VLINE);
+  map[rand0 + 3][rand1] = '#';
+  mvaddch(rand0 + 3, rand1, ACS_VLINE);
+
+  // right side
+
+  map[rand0 + 1][rand1 + 6] = '#';
+  mvaddch(rand0 + 1, rand1 + 6, ACS_VLINE);
+  map[rand0 + 2][rand1 + 4] = '#';
+  mvaddch(rand0 + 2, rand1 + 6, ACS_VLINE);
+  map[rand0 + 3][rand1 + 4] = '#';
+  mvaddch(rand0 + 3, rand1 + 6, ACS_VLINE);
 }
 
 void clearMap(char map[][81]) {

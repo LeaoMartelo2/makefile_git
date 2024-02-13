@@ -4,7 +4,7 @@
 
 void debug_printPlayerXY(int &playerY, int &playerX) {
 
-  mvprintw(27, 115, "X: ");
+  mvprintw(27, 116, "X: ");
   attron(COLOR_PAIR(1));
   printw("%d ", playerX);
   attroff(COLOR_PAIR(1));
@@ -43,7 +43,11 @@ void debug_regenMap(char input, int &playerY, int &playerX) {
   attron(COLOR_PAIR(1));
   printw("h");
   attroff(COLOR_PAIR(1));
-  printw(" to re-generate the map.");
+  printw(" to ");
+  attron(COLOR_PAIR(1));
+  printw("@Re");
+  attroff(COLOR_PAIR(1));
+  printw("generate the map.");
 
   if (input == 'h') {
     clearMap(map);
