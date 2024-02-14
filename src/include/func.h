@@ -27,10 +27,6 @@ void roomPopulate_Coins();
 
 void spawn_damage_solid(int count);
 
-void modifyCoins(int ammount);
-
-void modifyHealth(int ammount);
-
 char get_behavior(int y, int x, bool &block_movement,
                   std::string &behavior_name, char side = ' ');
 

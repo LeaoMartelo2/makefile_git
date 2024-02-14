@@ -20,3 +20,13 @@ void update_menu() {
   attroff(COLOR_PAIR(5));
   printw("     ");
 }
+
+void modifyCoins(int ammount) {
+  extern int coins;
+  coins = coins + ammount;
+}
+
+void modifyHealth(int ammount) {
+  extern int health;
+  health = health + ammount;
+}

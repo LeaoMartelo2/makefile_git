@@ -1,5 +1,6 @@
 #include "func.h"
 #include "debug.h"
+#include "stats.h"
 #include <cstdlib>
 #include <ncurses.h>
 #include <string>
@@ -105,20 +106,6 @@ void roomPopulate_Coins() {
       }
     }
   }
-}
-
-void modifyCoins(int ammount) {
-  extern int coins;
-
-  coins = coins + ammount;
-}
-
-void modifyHealth(int ammount) {
-  extern int health;
-
-  // flash();  need to find a better way to give damage feedback
-
-  health = health + ammount;
 }
 
 void spawn_damage_solid(int count) {
@@ -235,7 +222,7 @@ char get_behavior(int y, int x, bool &block_movement,
     return BEHAVIOR_EMPTY;
   }
 
-  // last ditch effort if the game does not know what you colided with
+  // fallback option if the game does not know what you colided with
   block_movement = false;
   behavior_name = "BEHAVIOR_UNKNOWN";
   return BEHAVIOR_UNKNOWN;
