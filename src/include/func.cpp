@@ -187,7 +187,7 @@ void mapBorder(char map[][81]) {
   mvaddch(31, 81, ACS_LRCORNER);
 }
 
-void printPlayer(int &y, int &x, char player) {
+void printPlayer(int &y, int &x) {
 
   attron(COLOR_PAIR(1));
   // mvaddch(y, x, player);

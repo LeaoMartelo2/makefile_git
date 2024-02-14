@@ -18,7 +18,7 @@ void movePlayer(int &y, int &x, char input);
 
 void mapBorder(char map[][81]);
 
-void printPlayer(int &y, int &x, char player);
+void printPlayer(int &y, int &x);
 
 void add_obj(int y, int x, char visual, char behavior = ' ',
              int color_attr = 0);

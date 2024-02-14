@@ -41,9 +41,8 @@ int main(int argc, char *argv[]) {
   initscr();
   noecho();
   curs_set(0);
-  keypad(stdscr, 1);
+  nodelay(stdscr, 1);
   raw();
-  nodelay(stdscr, TRUE);
 
   start_color();
 
@@ -54,20 +53,20 @@ int main(int argc, char *argv[]) {
   init_pair(5, COLOR_YELLOW, COLOR_BLACK);
   init_pair(6, COLOR_RED, COLOR_BLACK);
 
-  clearMap();
-  mapBorder(map);
-  GenRandomRoom(map);
-
-  update_menu();
-
   if (debugMode) {
     debug_header();
   }
 
+  update_menu();
+
+  clearMap();
+  mapBorder(map);
+
   while (game) {
     input = getch();
-
-    update_menu();
+    if (input == 27) {
+      game = false;
+    }
 
     if (debugMode) {
       debug_printPlayerXY(y, x);
@@ -75,27 +74,15 @@ int main(int argc, char *argv[]) {
       debug_regenMap(input, y, x);
     }
 
-    if (input == 27) {
-      game = false;
-    }
+    update_menu();
 
-    printPlayer(y, x, player);
-
-    // MOVE CICLE
+    // move cycle
     movePlayer(y, x, input);
+    printPlayer(y, x);
   }
 
   refresh();
-  clear();
 
-  getmaxyx(stdscr, rows, cols);
-
-  nodelay(stdscr, 0);
-  mvprintw(rows / 2, (cols / 2) - 6, "Press any key to exit.");
-
-  // getch();
-
-  refresh();
   endwin();
   return 0;
 }
