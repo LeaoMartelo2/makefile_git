@@ -62,7 +62,6 @@ int main(int argc, char *argv[]) {
 
   clearMap();
   mapBorder(map);
-  load_room(1);
 
   while (game) {
     input = getch();

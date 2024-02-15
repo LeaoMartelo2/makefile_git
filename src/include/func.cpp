@@ -1,9 +1,33 @@
 #include "func.h"
 #include "debug.h"
+#include "rooms.h"
 #include "stats.h"
 #include <cstdlib>
 #include <ncurses.h>
 #include <string>
+
+#define BEHAVIOR_SOLID_WALL '#'
+#define BEHAVIOR_COLLECTIBLE_COIN '$'
+#define BEHAVIOR_DAMAGE_SOLID 'D'
+#define BEHAVIOR_SPIKETOP_SOLID '^'
+#define BEHAVIOR_EMPTY ' '
+#define BEHAVIOR_UNKNOWN 'U'
+
+void array_to_screen() {
+
+  extern char map[31][81];
+
+  for (int i = 1; i < 31; i++) {
+    for (int j = 1; j < 81; j++) {
+
+      switch (map[i][j]) {
+      case BEHAVIOR_SOLID_WALL:
+        mvaddch(i, j, BEHAVIOR_SOLID_WALL);
+        break;
+      }
+    }
+  }
+}
 
 void add_obj(int y, int x, char visual, char behavior, int color_attr) {
 
@@ -148,6 +172,7 @@ void clearMap() {
       mvaddch(yy, xx, BEHAVIOR_EMPTY);
     }
   }
+  mapBorder(map);
 }
 
 void mapBorder(char map[][81]) {

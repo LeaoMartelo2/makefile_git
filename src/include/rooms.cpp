@@ -1,20 +1,22 @@
 #include "rooms.h"
 #include "func.h"
 #include <ncurses.h>
+#include <string>
 
-void load_room(unsigned short room_id) {
+void load_room(roomTypes room_type) {
 
   extern char map[31][81];
 
   clearMap();
 
-  if (room_id == 1) {
-    presetRoom_1();
-  }
+  Room start("Start", None);
+  Room full("FULL", None);
+  Room quarter("QUARTER", None);
 }
 
-void presetRoom_1() {
-  attron(COLOR_PAIR(1));
-  mvprintw(0, 33, "STARTING ROOM");
-  attroff(COLOR_PAIR(1));
+void room_Start() {
+  Room start("Start", None);
+
+  start.drawName();
+  start.drawDoors();
 }
