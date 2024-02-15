@@ -1,5 +1,6 @@
 #include "include/debug.h"
 #include "include/func.h"
+#include "include/rooms.h"
 #include "include/stats.h"
 #include <cstring>
 #include <locale.h>
@@ -61,6 +62,7 @@ int main(int argc, char *argv[]) {
 
   clearMap();
   mapBorder(map);
+  load_room(1);
 
   while (game) {
     input = getch();
