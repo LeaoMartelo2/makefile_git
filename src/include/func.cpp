@@ -6,6 +6,45 @@
 #include <ncurses.h>
 #include <string>
 
+void buffer_to_screen(char buffer[][81]) {
+
+  extern char map[31][81];
+
+  clearMap();
+
+  for (int y = 0; y < 31; y++) {
+    for (int x = 0; x < 81; x++) {
+      map[y][x] = buffer[y][x];
+
+      switch (buffer[y][x]) {
+      case BEHAVIOR_SOLID_WALL:
+        mvaddch(y, x, BEHAVIOR_SOLID_WALL);
+        break;
+
+      case BEHAVIOR_DAMAGE_SOLID:
+        attron(COLOR_PAIR(2));
+        mvaddch(y, x, ACS_DIAMOND);
+        attroff(COLOR_PAIR(2));
+        break;
+
+      case BEHAVIOR_SPIKETOP_SOLID:
+        attron(COLOR_PAIR(2));
+        mvaddch(y, x, ACS_PLMINUS);
+        attroff(COLOR_PAIR(2));
+        break;
+
+      case BEHAVIOR_COLLECTIBLE_COIN:
+        attron(COLOR_PAIR(5));
+        mvaddch(y, x, 'o');
+        attroff(COLOR_PAIR(5));
+
+      case BEHAVIOR_EMPTY:
+        mvaddch(y, x, BEHAVIOR_EMPTY);
+      }
+    }
+  }
+}
+
 void print_minimap(int minimap[][3]) {
 
   extern int roomY;
@@ -13,38 +52,17 @@ void print_minimap(int minimap[][3]) {
 
   move(15, 115);
 
-  for (int i = 0; i < 3; i++) {
-    addch('[');
-    if (roomY == 0 && roomX == i) {
-      attron(COLOR_PAIR(1));
+  for (int y = 0; y < 3; y++) {
+    move(15 + y, 115);
+    for (int i = 0; i < 3; i++) {
+      addch('[');
+      if (roomY == 0 + y && roomX == i) {
+        attron(COLOR_PAIR(1));
+      }
+      printw("%d", minimap[0 + y][i]);
+      attroff(COLOR_PAIR(1));
+      addch(']');
     }
-    printw("%d", minimap[0][i]);
-    attroff(COLOR_PAIR(1));
-    addch(']');
-  }
-
-  move(16, 115);
-
-  for (int i = 0; i < 3; i++) {
-    addch('[');
-    if (roomY == 1 && roomX == i) {
-      attron(COLOR_PAIR(1));
-    }
-    printw("%d", minimap[1][i]);
-    attroff(COLOR_PAIR(1));
-    addch(']');
-  }
-
-  move(17, 115);
-
-  for (int i = 0; i < 3; i++) {
-    addch('[');
-    if (roomY == 2 && roomX == i) {
-      attron(COLOR_PAIR(1));
-    }
-    printw("%d", minimap[2][i]);
-    attroff(COLOR_PAIR(1));
-    addch(']');
   }
 }
 
@@ -198,17 +216,17 @@ void mapBorder(char map[][81]) {
 
   // might migrate this for a box(); function
 
-  for (int i = 0; i < 82; i++) {
+  for (int i = 1; i < 81; i++) {
     map[0][i] = BEHAVIOR_SOLID_WALL;
     mvaddch(0, i, ACS_HLINE);
     map[31][i] = BEHAVIOR_SOLID_WALL;
     mvaddch(31, i, ACS_HLINE);
   }
 
-  for (int i = 0; i < 32; i++) {
+  for (int i = 1; i < 31; i++) {
     map[i][0] = BEHAVIOR_SOLID_WALL;
     mvaddch(i, 0, ACS_VLINE);
-    map[i][81] = BEHAVIOR_SOLID_WALL;
+    map[i][80] = BEHAVIOR_SOLID_WALL;
     mvaddch(i, 81, ACS_VLINE);
   }
 
@@ -274,10 +292,7 @@ char get_behavior(int y, int x, bool &block_movement,
 
 void movePlayer(int &y, int &x, char input) {
 
-  extern char map[31][81];
   extern bool debugMode;
-  extern int coins;
-  extern int health;
 
   bool cancel_movement = false;
   char localcheck;
@@ -286,7 +301,7 @@ void movePlayer(int &y, int &x, char input) {
   switch (input) {
   case 'w':
 
-    localcheck = get_behavior(y - 1, x, cancel_movement, behavior_name, 'w');
+    localcheck = get_behavior(y - 1, x, cancel_movement, behavior_name, input);
 
     if (localcheck != BEHAVIOR_EMPTY) {
       if (debugMode)
@@ -301,7 +316,7 @@ void movePlayer(int &y, int &x, char input) {
 
   case 's':
 
-    localcheck = get_behavior(y + 1, x, cancel_movement, behavior_name, 's');
+    localcheck = get_behavior(y + 1, x, cancel_movement, behavior_name, input);
 
     if (localcheck != BEHAVIOR_EMPTY) {
       if (debugMode)
@@ -317,7 +332,7 @@ void movePlayer(int &y, int &x, char input) {
 
   case 'a':
 
-    localcheck = get_behavior(y, x - 1, cancel_movement, behavior_name, 'a');
+    localcheck = get_behavior(y, x - 1, cancel_movement, behavior_name, input);
 
     if (localcheck != BEHAVIOR_EMPTY) {
       if (debugMode)
@@ -334,7 +349,7 @@ void movePlayer(int &y, int &x, char input) {
 
   case 'd':
 
-    localcheck = get_behavior(y, x + 1, cancel_movement, behavior_name, 'd');
+    localcheck = get_behavior(y, x + 1, cancel_movement, behavior_name, input);
 
     if (localcheck != BEHAVIOR_EMPTY) {
       if (debugMode)

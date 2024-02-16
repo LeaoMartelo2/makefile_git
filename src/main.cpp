@@ -36,9 +36,6 @@ int main(int argc, char *argv[]) {
   char input = 0;
   int y = 15;
   int x = 40;
-  char player = ACS_DIAMOND;
-
-  int rows, cols;
 
   bool game = true;
 
@@ -80,7 +77,7 @@ int main(int argc, char *argv[]) {
     }
 
     update_menu();
-    gen_structure();
+    gen_minimap();
 
     // move cycle
     movePlayer(y, x, input);

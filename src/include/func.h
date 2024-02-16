@@ -9,6 +9,10 @@
 #define BEHAVIOR_SPIKETOP_SOLID '^'
 #define BEHAVIOR_EMPTY ' '
 #define BEHAVIOR_UNKNOWN 'U'
+#define BEHAVIOR_PORTAL_LEFT '['
+#define BEHAVIOR_PORTAL_RIGHT ']'
+#define BEHAVIOR_PORTAL_TOP '('
+#define BEHAVIOR_PORTAL_BOTTOM ')'
 
 void GenRandomRoom(char map[][81]);
 
@@ -33,5 +37,7 @@ char get_behavior(int y, int x, bool &block_movement,
 void spawn_spiketop(int count);
 
 void print_minimap(int minimap[][3]);
+
+void buffer_to_screen(char buffer[][81]);
 
 #endif

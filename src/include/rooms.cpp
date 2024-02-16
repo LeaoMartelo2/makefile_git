@@ -2,7 +2,16 @@
 #include "func.h"
 #include <ncurses.h>
 
-void gen_structure() {
+enum Door_side {
+
+  Up = 0,
+  Down = 1,
+  Left = 2,
+  Right = 3
+
+};
+
+void gen_minimap() {
 
   int mini_map[3][3];
 
