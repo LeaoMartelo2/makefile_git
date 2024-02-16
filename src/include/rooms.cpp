@@ -1,5 +1,6 @@
 #include "rooms.h"
 #include "func.h"
+#include "map.h"
 #include <ncurses.h>
 
 enum Door_side {
@@ -22,11 +23,4 @@ void gen_minimap() {
   }
 
   print_minimap(mini_map);
-}
-
-void drawName(std::string room_name) {
-  int name_size = room_name.size();
-  attron(COLOR_PAIR(1));
-  mvaddstr(0, (40 - name_size / 2), room_name.c_str());
-  attroff(COLOR_PAIR(1));
 }

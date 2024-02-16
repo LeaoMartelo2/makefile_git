@@ -5,7 +5,7 @@ INCLUDE = src/include/
 #OBJ = obj/
 #ALLOBJ = $(wildcard ${OBJ}*.o)
 
-all: main.o func.o debug.o stats.o rooms.o
+all: main.o func.o debug.o stats.o rooms.o map.o
 	${CC} ${FLAGS} $^ -o $@
 
 clear: 
@@ -24,4 +24,7 @@ stats.o: ${INCLUDE}stats.cpp
 	${CC} ${FLAGS} -c $^ -o $@
 
 rooms.o: ${INCLUDE}rooms.cpp
+	${CC} ${FLAGS} -c $^ -o $@
+
+map.o: ${INCLUDE}map.cpp
 	${CC} ${FLAGS} -c $^ -o $@

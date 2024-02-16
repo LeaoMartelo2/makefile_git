@@ -1,13 +1,13 @@
 #include "include/debug.h"
 #include "include/func.h"
+#include "include/map.h"
 #include "include/rooms.h"
 #include "include/stats.h"
 #include <cstring>
 #include <locale.h>
 #include <ncurses.h>
 
-#define ROWS 31
-#define COLS 81
+// global variables
 
 char map[31][81];
 
@@ -33,11 +33,15 @@ int main(int argc, char *argv[]) {
     }
   }
 
+  // geral use variables
+
   char input = 0;
   int y = 15;
   int x = 40;
 
   bool game = true;
+
+  // ncurses settings
 
   initscr();
   noecho();
@@ -55,14 +59,20 @@ int main(int argc, char *argv[]) {
   init_pair(5, COLOR_YELLOW, COLOR_BLACK);
   init_pair(6, COLOR_RED, COLOR_BLACK);
 
+  // debug stuff before main game loop
+
   if (debugMode) {
     debug_header();
   }
+
+  // stuff to be loaded before the main game loop
 
   update_menu();
 
   clearMap();
   mapBorder(map);
+
+  // game loop
 
   while (game) {
     input = getch();
@@ -70,11 +80,15 @@ int main(int argc, char *argv[]) {
       game = false;
     }
 
+    // debug mode suff that needs to be updated every loop
+
     if (debugMode) {
       debug_printPlayerXY(y, x);
       debug_printLastInput(input);
       debug_regenMap(input, y, x);
     }
+
+    // general stuff that needs to be updated every game loop
 
     update_menu();
     gen_minimap();
@@ -83,6 +97,8 @@ int main(int argc, char *argv[]) {
     movePlayer(y, x, input);
     printPlayer(y, x);
   }
+
+  // ncurses cleaning up on loop exit
 
   refresh();
 

@@ -1,6 +1,5 @@
 #include "func.h"
 #include "debug.h"
-#include "rooms.h"
 #include "stats.h"
 #include <cstdlib>
 #include <ncurses.h>
@@ -14,32 +13,43 @@ void buffer_to_screen(char buffer[][81]) {
 
   for (int y = 0; y < 31; y++) {
     for (int x = 0; x < 81; x++) {
-      map[y][x] = buffer[y][x];
 
       switch (buffer[y][x]) {
       case BEHAVIOR_SOLID_WALL:
+        map[y][x] = buffer[y][x];
         mvaddch(y, x, BEHAVIOR_SOLID_WALL);
         break;
 
       case BEHAVIOR_DAMAGE_SOLID:
         attron(COLOR_PAIR(2));
+        map[y][x] = buffer[y][x];
         mvaddch(y, x, ACS_DIAMOND);
         attroff(COLOR_PAIR(2));
         break;
 
       case BEHAVIOR_SPIKETOP_SOLID:
         attron(COLOR_PAIR(2));
+        map[y][x] = buffer[y][x];
         mvaddch(y, x, ACS_PLMINUS);
         attroff(COLOR_PAIR(2));
         break;
 
       case BEHAVIOR_COLLECTIBLE_COIN:
         attron(COLOR_PAIR(5));
+        map[y][x] = buffer[y][x];
         mvaddch(y, x, 'o');
         attroff(COLOR_PAIR(5));
+        break;
 
       case BEHAVIOR_EMPTY:
+        map[y][x] = buffer[y][x];
         mvaddch(y, x, BEHAVIOR_EMPTY);
+        break;
+
+      default:
+        map[y][x] = BEHAVIOR_UNKNOWN;
+        mvaddch(y, x, BEHAVIOR_UNKNOWN);
+        break;
       }
     }
   }
@@ -88,7 +98,6 @@ void add_obj(int y, int x, char visual, char behavior, int color_attr) {
 
 void GenRandomRoom(char map[][81]) {
 
-  /*
   for (int yy = 1; yy < 31; yy++) {
     for (int xx = 1; xx < 81; xx++) {
       if (rand() % 99 == 0) {
@@ -97,7 +106,6 @@ void GenRandomRoom(char map[][81]) {
       }
     }
   }
-  */
 
   int random_squares = rand() % 5 + 1;
 

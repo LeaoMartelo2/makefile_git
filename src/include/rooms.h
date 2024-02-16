@@ -3,14 +3,11 @@
 
 #include "debug.h"
 #include "func.h"
+#include "map.h"
 #include <ncurses.h>
 #include <string>
 
-void room_Start();
-
 void gen_minimap();
-
-void drawName(std::string room_name);
 
 class Room {
 public:
@@ -31,6 +28,21 @@ public:
   void load() {
     /*turn down for what*/
     buffer_to_screen(map_buffer);
+  }
+
+  void drawName() {
+    attron(COLOR_PAIR(1));
+    mvaddstr(0, (40 - room_name.size() / 2), room_name.c_str());
+    attroff(COLOR_PAIR(1));
+  }
+
+  void recieve_buffer(char preset_buffer[][81]) {
+
+    for (int y = 0; y < 31; y++) {
+      for (int x = 0; x < 81; x++) {
+        this->map_buffer[y][x] = preset_buffer[y][x];
+      }
+    }
   }
 };
 
