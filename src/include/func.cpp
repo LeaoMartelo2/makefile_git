@@ -6,26 +6,45 @@
 #include <ncurses.h>
 #include <string>
 
-#define BEHAVIOR_SOLID_WALL '#'
-#define BEHAVIOR_COLLECTIBLE_COIN '$'
-#define BEHAVIOR_DAMAGE_SOLID 'D'
-#define BEHAVIOR_SPIKETOP_SOLID '^'
-#define BEHAVIOR_EMPTY ' '
-#define BEHAVIOR_UNKNOWN 'U'
+void print_minimap(int minimap[][3]) {
 
-void array_to_screen() {
+  extern int roomY;
+  extern int roomX;
 
-  extern char map[31][81];
+  move(15, 115);
 
-  for (int i = 1; i < 31; i++) {
-    for (int j = 1; j < 81; j++) {
-
-      switch (map[i][j]) {
-      case BEHAVIOR_SOLID_WALL:
-        mvaddch(i, j, BEHAVIOR_SOLID_WALL);
-        break;
-      }
+  for (int i = 0; i < 3; i++) {
+    addch('[');
+    if (roomY == 0 && roomX == i) {
+      attron(COLOR_PAIR(1));
     }
+    printw("%d", minimap[0][i]);
+    attroff(COLOR_PAIR(1));
+    addch(']');
+  }
+
+  move(16, 115);
+
+  for (int i = 0; i < 3; i++) {
+    addch('[');
+    if (roomY == 1 && roomX == i) {
+      attron(COLOR_PAIR(1));
+    }
+    printw("%d", minimap[1][i]);
+    attroff(COLOR_PAIR(1));
+    addch(']');
+  }
+
+  move(17, 115);
+
+  for (int i = 0; i < 3; i++) {
+    addch('[');
+    if (roomY == 2 && roomX == i) {
+      attron(COLOR_PAIR(1));
+    }
+    printw("%d", minimap[2][i]);
+    attroff(COLOR_PAIR(1));
+    addch(']');
   }
 }
 
@@ -124,7 +143,7 @@ void roomPopulate_Coins() {
         map[yy][xx] = BEHAVIOR_COLLECTIBLE_COIN;
         attron(COLOR_PAIR(5));
         attron(A_BOLD);
-        mvaddch(yy, xx, '.');
+        mvaddch(yy, xx, 'o');
         attroff(COLOR_PAIR(5));
         attroff(A_BOLD);
       }

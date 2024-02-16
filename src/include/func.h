@@ -3,6 +3,13 @@
 
 #include <string>
 
+#define BEHAVIOR_SOLID_WALL '#'
+#define BEHAVIOR_COLLECTIBLE_COIN '$'
+#define BEHAVIOR_DAMAGE_SOLID 'D'
+#define BEHAVIOR_SPIKETOP_SOLID '^'
+#define BEHAVIOR_EMPTY ' '
+#define BEHAVIOR_UNKNOWN 'U'
+
 void GenRandomRoom(char map[][81]);
 
 void clearMap();
@@ -24,5 +31,7 @@ char get_behavior(int y, int x, bool &block_movement,
                   std::string &behavior_name, char side = ' ');
 
 void spawn_spiketop(int count);
+
+void print_minimap(int minimap[][3]);
 
 #endif

@@ -11,6 +11,9 @@
 
 char map[31][81];
 
+int roomY = 0;
+int roomX = 0;
+
 bool debugMode = false;
 
 int coins = 0;
@@ -43,6 +46,7 @@ int main(int argc, char *argv[]) {
   noecho();
   curs_set(0);
   nodelay(stdscr, 1);
+  keypad(stdscr, 1);
   raw();
 
   start_color();
@@ -76,6 +80,7 @@ int main(int argc, char *argv[]) {
     }
 
     update_menu();
+    gen_structure();
 
     // move cycle
     movePlayer(y, x, input);

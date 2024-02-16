@@ -1,22 +1,23 @@
 #include "rooms.h"
 #include "func.h"
 #include <ncurses.h>
-#include <string>
 
-void load_room(roomTypes room_type) {
+void gen_structure() {
 
-  extern char map[31][81];
+  int mini_map[3][3];
 
-  clearMap();
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+      mini_map[i][j] = 0;
+    }
+  }
 
-  Room start("Start", None);
-  Room full("FULL", None);
-  Room quarter("QUARTER", None);
+  print_minimap(mini_map);
 }
 
-void room_Start() {
-  Room start("Start", None);
-
-  start.drawName();
-  start.drawDoors();
+void drawName(std::string room_name) {
+  int name_size = room_name.size();
+  attron(COLOR_PAIR(1));
+  mvaddstr(0, (40 - name_size / 2), room_name.c_str());
+  attroff(COLOR_PAIR(1));
 }
