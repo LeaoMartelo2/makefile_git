@@ -24,3 +24,10 @@ void gen_minimap() {
 
   print_minimap(mini_map);
 }
+
+void start_rooms() {
+  Room room_example_obj("Example", 0, 0);
+  room_example_obj.recieve_buffer(room_example);
+  room_example_obj.load();
+  room_example_obj.drawName();
+}

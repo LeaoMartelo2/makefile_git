@@ -5,6 +5,4 @@
 
 #include "map.h"
 
-char room_start[31][81];
-
 char room_example[31][81];

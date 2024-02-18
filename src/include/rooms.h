@@ -9,6 +9,8 @@
 
 void gen_minimap();
 
+void start_rooms();
+
 class Room {
 public:
   char map_buffer[31][81];
