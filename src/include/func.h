@@ -24,8 +24,8 @@ void mapBorder(char map[][81]);
 
 void printPlayer(int &y, int &x);
 
-void add_obj(int y, int x, char visual, char behavior = ' ',
-             int color_attr = 0);
+/*void add_obj(int y, int x, char visual, char behavior = ' ',
+             int color_attr = 0);*/
 
 void roomPopulate_Coins();
 
@@ -39,5 +39,11 @@ void spawn_spiketop(int count);
 void print_minimap(int minimap[][3]);
 
 void buffer_to_screen(char buffer[][81]);
+
+void add_obj(int x, int y, char sprite, char behavior = ' ',
+             int color_attr = 0);
+
+void get_behavior(int x, int y, bool &block_movement,
+                  std::string &behavior_name);
 
 #endif
